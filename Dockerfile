@@ -1,4 +1,10 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+﻿#Database seeding
+FROM postgres:15.1-alpine as book_shelf_database
+WORKDIR /app
+COPY ./Scripts/Database/init.sh /docker-entrypoint-initdb.d
+COPY ./Scripts/Database/init_db.sql ./scripts/database/init_db.sql
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443

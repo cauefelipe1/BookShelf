@@ -1,32 +1,22 @@
 version: "3.9"
 services:
-  postgres:
+  database:
+    image: book_shelf_database
     container_name: book_shelf_database
-    image: "postgres:15.1-alpine"
+    build:
+      context: .
+      target: book_shelf_database
     environment:
+      - POSTGRES_USER=app
       - POSTGRES_PASSWORD=123456
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - POSTGRES_DB=book_shelf
     ports:
-      - "5400:5432"
+      - 5401:5432
     networks:
       - book_shelf
     profiles:
-      ["book_shelf", "postgres"]
-      
-  book_shelf_api:
-    container_name: book_shelf_database
-    image: "postgres:15.1-alpine"
-    environment:
-      - POSTGRES_PASSWORD=123456
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    ports:
-      - "5400:5432"
-    networks:
-      - book_shelf
-    profiles:
-      ["book_shelf", "postgres"]
+      ["book_shelf", "database"]
+
 
 networks:
   book_shelf:
