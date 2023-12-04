@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.API", "BookShelf.API\BookShelf.API.csproj", "{334F4B08-123C-4929-8EC0-61238767021E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Models", "BookShelf.Models\BookShelf.Models.csproj", "{D0FC987E-905D-494E-8A58-CCDE8E3C1B48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Data", "BookShelf.Data\BookShelf.Data.csproj", "{2A93D462-2782-4405-8C07-6F5A361F0382}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Application", "BookShelf.Application\BookShelf.Application.csproj", "{1703868D-0549-47A3-B073-DF5D781F7EB5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{334F4B08-123C-4929-8EC0-61238767021E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{334F4B08-123C-4929-8EC0-61238767021E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{334F4B08-123C-4929-8EC0-61238767021E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{334F4B08-123C-4929-8EC0-61238767021E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0FC987E-905D-494E-8A58-CCDE8E3C1B48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0FC987E-905D-494E-8A58-CCDE8E3C1B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0FC987E-905D-494E-8A58-CCDE8E3C1B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0FC987E-905D-494E-8A58-CCDE8E3C1B48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A93D462-2782-4405-8C07-6F5A361F0382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A93D462-2782-4405-8C07-6F5A361F0382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A93D462-2782-4405-8C07-6F5A361F0382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A93D462-2782-4405-8C07-6F5A361F0382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1703868D-0549-47A3-B073-DF5D781F7EB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1703868D-0549-47A3-B073-DF5D781F7EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1703868D-0549-47A3-B073-DF5D781F7EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1703868D-0549-47A3-B073-DF5D781F7EB5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal
