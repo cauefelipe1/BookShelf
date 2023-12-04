@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS book (
   "id" TEXT NOT NULL,
   "isbn" TEXT NOT NULL,
   "title" TEXT NOT NULL,
-  "publish_date" TEXT NOT NULL,
+  "publish_date" DATE NOT NULL,
   "language" TEXT NOT NULL,  
 
   PRIMARY KEY ("id")
