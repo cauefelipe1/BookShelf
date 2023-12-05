@@ -7,8 +7,4 @@ public interface IAuthorRepository
     List<AuthorDao> GetAuthorsByBook(Guid bookId);
     
     Task<Guid> CreateAuthor(AuthorDao dao);
-
-    void UpdateAuthor(AuthorDao dao);
-
-    void DeleteAuthor(Guid authorId); 
 }

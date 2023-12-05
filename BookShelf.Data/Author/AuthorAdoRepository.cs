@@ -46,14 +46,4 @@ public class AuthorAdoRepository : BaseAdoRepository, IAuthorRepository
             return id;
         }
     }
-
-    public void UpdateAuthor(AuthorDao dao)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void DeleteAuthor(Guid authorId)
-    {
-        throw new NotImplementedException();
-    }
 }
