@@ -5,10 +5,12 @@ namespace BookShelf.Application.Services.Author;
 public interface IAuthorService
 {
     AuthorModel GetAuthor(Guid authorId);
+    
+    Task<Guid> CreateAuthor(AuthorModel model);
 
     List<AuthorModel> GetAuthorsByBook(Guid bookId);
 
-    void UpdateAuthor(BookModel model);
+    void UpdateAuthor(AuthorModel model);
 
-    void DeleteAuthor(Guid bookId);
+    void DeleteAuthor(Guid authorId);
 }
