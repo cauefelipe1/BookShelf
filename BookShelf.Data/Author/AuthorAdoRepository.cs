@@ -1,10 +1,18 @@
 using BookShelf.Data.Base;
+using BookShelf.Data.Settings;
 using Npgsql;
 
 namespace BookShelf.Data.Author;
 
 public class AuthorAdoRepository : BaseAdoRepository, IAuthorRepository
 {
+    private readonly DatabaseSettings _settings;
+
+    public AuthorAdoRepository(DatabaseSettings settings)
+    {
+        _settings = settings;
+    }
+
     public AuthorDao GetAuthor(Guid authorId)
     {
         throw new NotImplementedException();
@@ -26,7 +34,8 @@ public class AuthorAdoRepository : BaseAdoRepository, IAuthorRepository
 
         var id = Guid.NewGuid(); 
         dao.Id = id.ToString();
-        using (var conn = new NpgsqlConnection("Username=app;Password=123456;Host=localhost;Port=5401;Database=book_shelf"))
+
+        using (var conn = new NpgsqlConnection(_settings.ConnectionString))
         {
             conn.Open();
             

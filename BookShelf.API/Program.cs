@@ -1,9 +1,10 @@
 using BookShelf.Application.DependencyInjection;
 using BookShelf.Data.DependencyInjection;
+using BookShelf.Data.Settings;
 
 namespace BookShelf.API;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
@@ -17,8 +18,9 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         
-        builder.Services.AddApplicationServices();
-        builder.Services.AddRepositories();
+        builder.Services.AddDomainServices();
+        builder.Configuration.AddEnvironmentVariables();
+        builder.Services.AddDatabaseConfiguration(builder.Configuration);
 
         var app = builder.Build();
 
@@ -37,5 +39,18 @@ public class Program
         app.MapControllers();
 
         app.Run();
+    }
+
+    private static void AddDomainServices(this IServiceCollection services)
+    {
+        services.AddApplicationServices();
+        services.AddRepositories();
+    }
+    
+    private static void AddDatabaseConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        var databaseSettings = new DatabaseSettings(configuration.GetSection("Database"));
+
+        services.AddSingleton(databaseSettings);
     }
 }
