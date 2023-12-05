@@ -11,4 +11,6 @@ public class BookDao
     public DateTime PublishDate { get; set; }
 
     public string Language { get; set; }
+
+    public List<string> Auhtors { get; set; }
 }

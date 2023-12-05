@@ -12,6 +12,28 @@ public class AuthorAdoRepository : BaseAdoRepository, IAuthorRepository
     {
         _settings = settings;
     }
+    
+    public async Task<List<AuthorDao>> GetAll()
+    {
+        const string SQL = @"
+            SELECT 
+                id AS Id, 
+                first_name AS FirstName, 
+                last_date AS LastName
+            FROM 
+                author";
+
+        using (var conn = new NpgsqlConnection(_settings.ConnectionString))
+        {
+            conn.Open();
+            
+            var daos = await ExecuteQuery<AuthorDao>(conn, SQL);
+            
+            await conn.CloseAsync();
+            
+            return daos;
+        }
+    }
 
     public async Task<AuthorDao?> GetAuthor(Guid authorId)
     {

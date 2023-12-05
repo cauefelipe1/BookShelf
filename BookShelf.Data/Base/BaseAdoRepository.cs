@@ -1,13 +1,10 @@
-using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
 using Npgsql;
 
 namespace BookShelf.Data.Base;
 
 public abstract class BaseAdoRepository
 {
-    protected async Task<List<T>> ExecuteQuery<T>(NpgsqlConnection connection, string sqlQuery, object? parameters)
+    protected async Task<List<T>> ExecuteQuery<T>(NpgsqlConnection connection, string sqlQuery, object? parameters = null)
     {
         var command = new NpgsqlCommand(sqlQuery, connection);
         InternalAddParametersIntoCommand(command, parameters);
@@ -18,16 +15,17 @@ public abstract class BaseAdoRepository
         var result = new List<T>();
         
         var reader = await command.ExecuteReaderAsync();
+        var columns = reader.GetColumnSchema().ToDictionary(c => c.ColumnName.ToLower());
+
         try
         {
             while (await reader.ReadAsync())
             {
                 var obj = (T)Activator.CreateInstance(tType)!;
                 result.Add(obj);
-
                 foreach (var p in props)
                 {
-                    if (p.CanWrite)
+                    if (p.CanWrite && columns.ContainsKey(p.Name.ToLower()))
                         p.SetValue(obj, reader[p.Name]);
                 }
             }

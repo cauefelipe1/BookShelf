@@ -14,6 +14,20 @@ public class AuthorController : ControllerBase
     {
         _service = service;
     }
+    
+    [HttpGet]
+    public async Task<ActionResult> GetAll()
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var authors = await _service.GetAll();
+
+        if (authors.Count == 0)
+            return NotFound();
+
+        return Ok(authors);
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult> GetAuthor(Guid id)

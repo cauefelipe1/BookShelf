@@ -36,6 +36,19 @@ public class AuthorService : IAuthorService
         _repository = repository;
     }
 
+    public async Task<List<AuthorModel>> GetAll()
+    {
+        var daos = await _repository.GetAll();
+        List<AuthorModel> result;
+
+        if (daos.Count > 0)
+            result = daos.Select(dao => BuildModel(dao)).ToList();
+        else
+            result = new List<AuthorModel>();
+        
+        return result;
+    }
+
     public async Task<AuthorModel?> GetAuthor(Guid authorId)
     {
         var dao = await _repository.GetAuthor(authorId);

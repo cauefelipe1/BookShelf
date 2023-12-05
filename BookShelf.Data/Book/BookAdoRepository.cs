@@ -63,7 +63,10 @@ public class BookAdoRepository : BaseAdoRepository, IBookRepository
         {
             conn.Open();
             
-            await ExecuteNonQuery(conn, SQL, parameters: dao);
+            int rowAffected = await ExecuteNonQuery(conn, SQL, parameters: dao);
+            
+            if (rowAffected > 0)
+                await InternalUpdateBookAuthors(conn, dao);
             
             await conn.CloseAsync();
             
@@ -89,10 +92,30 @@ public class BookAdoRepository : BaseAdoRepository, IBookRepository
             conn.Open();
             
             int rowAffected = await ExecuteNonQuery(conn, SQL, parameters: dao);
+
+            if (rowAffected > 0)
+                await InternalUpdateBookAuthors(conn, dao);
             
             await conn.CloseAsync();
 
             return rowAffected > 0;
+        }
+    }
+
+    private async Task InternalUpdateBookAuthors(NpgsqlConnection conn, BookDao dao)
+    {
+        const string DELETE_SQL = "DELETE FROM book_author WHERE book_id = @BookId";
+        
+        const string INSERT_SQL = @"
+            INSERT INTO 
+                book_author
+                (book_id, author_id)
+            VALUES
+                (@BookId, @AuthorId);";
+
+        foreach (var a in dao.Auhtors)
+        {
+            await ExecuteNonQuery(conn, INSERT_SQL, parameters: new {BookId = dao.Id, AuthorId = a});    
         }
     }
 

@@ -23,7 +23,8 @@ public class BookService : IBookService
             Isbn = model.Isbn,
             Title = model.Title,
             PublishDate = model.PublishDate,
-            Language = model.Language
+            Language = model.Language,
+            Auhtors = model.Authors.Select(a => a.Id.ToString()).ToList()
         };
 
         return dao;
