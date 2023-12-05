@@ -72,12 +72,16 @@ public class BookService : IBookService
         return id;
     }
 
-    public Task UpdateBook(BookModel model)
+    public async Task<bool> UpdateBook(Guid bookId, BookModel model)
     {
-        throw new NotImplementedException();
+        var dao = BuildDao(model);
+        
+        var updated = await _repository.UpdateBook(dao);
+
+        return updated;
     }
 
-    public Task DeleteBook(Guid bookId)
+    public Task<bool> DeleteBook(Guid bookId)
     {
         throw new NotImplementedException();
     }

@@ -71,12 +71,32 @@ public class BookAdoRepository : BaseAdoRepository, IBookRepository
         }
     }
 
-    public Task UpdateBook(BookDao dao)
+    public async Task<bool> UpdateBook(BookDao dao)
     {
-        throw new NotImplementedException();
+        const string SQL = @"
+            UPDATE
+                book
+            SET
+                isbn = @Isbn,
+                title = @Title,
+                publish_date = @PublishDate,
+                language = @Language
+            WHERE
+                id = @Id";
+
+        using (var conn = new NpgsqlConnection(_settings.ConnectionString))
+        {
+            conn.Open();
+            
+            int rowAffected = await ExecuteNonQuery(conn, SQL, parameters: dao);
+            
+            await conn.CloseAsync();
+
+            return rowAffected > 0;
+        }
     }
 
-    public Task DeleteBook(Guid bookId)
+    public Task<bool> DeleteBook(Guid bookId)
     {
         throw new NotImplementedException();
     }

@@ -10,7 +10,7 @@ public interface IBookService
     
     Task<Guid> CreateBook(BookModel model);
 
-    Task UpdateBook(BookModel model);
+    Task<bool> UpdateBook(Guid bookId, BookModel model);
 
-    Task DeleteBook(Guid bookId);
+    Task<bool> DeleteBook(Guid bookId);
 }

@@ -8,7 +8,7 @@ public interface IBookRepository
     
     Task<Guid> CreateBook(BookDao dao);
 
-    Task UpdateBook(BookDao dao);
+    Task<bool> UpdateBook(BookDao dao);
 
-    Task DeleteBook(Guid bookId);
+    Task<bool> DeleteBook(Guid bookId);
 }

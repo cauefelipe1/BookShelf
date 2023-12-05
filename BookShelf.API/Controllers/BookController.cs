@@ -30,7 +30,7 @@ public class BookController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult> CreatePost([FromBody] BookModel model)
+    public async Task<ActionResult> CreateBook([FromBody] BookModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest();
@@ -38,5 +38,19 @@ public class BookController : ControllerBase
         var id = await _service.CreateBook(model);
 
         return Ok(id);
+    }
+    
+    [HttpPut("{bookId}")]
+    public async Task<ActionResult> UpdateBook(Guid bookId, [FromBody] BookModel model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+        
+        var id = await _service.UpdateBook(bookId, model);
+
+        if (!id)
+            return BadRequest("Fail updating the book.");
+
+        return NoContent();
     }
 }
