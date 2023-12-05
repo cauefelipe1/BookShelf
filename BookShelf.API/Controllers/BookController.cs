@@ -15,10 +15,18 @@ public class BookController : ControllerBase
         _service = service;
     }
 
-    [HttpGet("{:id}")]
-    public ActionResult GetBook(Guid id)
+    [HttpGet("{id}")]
+    public async Task<ActionResult> GetBook(Guid id)
     {
-        return Ok(Enumerable.Empty<BookModel>().ToList());
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var book = await _service.GetBook(id);
+
+        if (book is null)
+            return NotFound();
+
+        return Ok(book);
     }
     
     [HttpPost]

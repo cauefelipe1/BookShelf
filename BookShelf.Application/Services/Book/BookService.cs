@@ -40,12 +40,18 @@ public class BookService : IBookService
         _repository = repository;
     }
 
-    public BookModel GetBook(Guid bookId)
+    public async Task<BookModel?> GetBook(Guid bookId)
     {
-        throw new NotImplementedException();
+        var dao = await _repository.GetBook(bookId);
+        BookModel? author = null;
+
+        if (dao is not null)
+            author = BuildModel(dao);
+
+        return author;
     }
 
-    public List<BookModel> GetUserBooks(Guid userId)
+    public Task<List<BookModel>> GetUserBooks(Guid userId)
     {
         throw new NotImplementedException();
     }
@@ -59,12 +65,12 @@ public class BookService : IBookService
         return id;
     }
 
-    public void UpdateBook(BookModel model)
+    public Task UpdateBook(BookModel model)
     {
         throw new NotImplementedException();
     }
 
-    public void DeleteBook(Guid bookId)
+    public Task DeleteBook(Guid bookId)
     {
         throw new NotImplementedException();
     }

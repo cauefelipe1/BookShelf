@@ -17,11 +17,11 @@ public class BookAdoRepository : BaseAdoRepository, IBookRepository
     {
         const string SQL = @"
             SELECT 
-                id,
-                isbn,
-                title,
-                publish_date,
-                language
+                id AS Id,
+                isbn AS Isbn,
+                title AS Title,
+                publish_date As PublishDate,
+                language as Language
             FROM
                 book
             WHERE
