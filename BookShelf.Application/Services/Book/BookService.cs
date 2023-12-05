@@ -1,3 +1,4 @@
+using BookShelf.Application.Services.Author;
 using BookShelf.Data.Book;
 using BookShelf.Models;
 
@@ -6,6 +7,13 @@ namespace BookShelf.Application.Services.Book;
 public class BookService : IBookService
 {
     private readonly IBookRepository _repository;
+    private readonly IAuthorService _authorService;
+    
+    public BookService(IBookRepository repository, IAuthorService authorService)
+    {
+        _repository = repository;
+        _authorService = authorService;
+    }
     
     private BookDao BuildDao(BookModel model)
     {
@@ -21,7 +29,7 @@ public class BookService : IBookService
         return dao;
     }
     
-    private BookModel BuildModel(BookDao dao)
+    private BookModel BuildModel(BookDao dao, List<AuthorModel> authors)
     {
         var model = new BookModel
         {
@@ -29,15 +37,11 @@ public class BookService : IBookService
             Isbn = dao.Isbn,
             Title = dao.Title,
             PublishDate = dao.PublishDate,
-            Language = dao.Language
+            Language = dao.Language,
+            Authors = authors
         };
 
         return model;
-    }
-
-    public BookService(IBookRepository repository)
-    {
-        _repository = repository;
     }
 
     public async Task<BookModel?> GetBook(Guid bookId)
@@ -46,7 +50,10 @@ public class BookService : IBookService
         BookModel? author = null;
 
         if (dao is not null)
-            author = BuildModel(dao);
+        {
+            var authors = await _authorService.GetAuthorsByBook(bookId);
+            author = BuildModel(dao, authors);
+        }
 
         return author;
     }

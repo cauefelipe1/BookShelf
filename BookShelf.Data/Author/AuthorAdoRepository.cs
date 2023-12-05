@@ -40,9 +40,29 @@ public class AuthorAdoRepository : BaseAdoRepository, IAuthorRepository
         }
     }
 
-    public Task<List<AuthorDao>> GetAuthorsByBook(Guid bookId)
+    public async Task<List<AuthorDao>> GetAuthorsByBook(Guid bookId)
     {
-        throw new NotImplementedException();
+        const string SQL = @"
+            SELECT
+                book_author.author_id AS Id, 
+                author.first_name AS FirstName, 
+                author.last_date AS LastName
+            FROM
+                book_author
+                inner join author on book_author.author_id = author.id
+            WHERE
+                book_author.book_id = @BookId;";
+
+        using (var conn = new NpgsqlConnection(_settings.ConnectionString))
+        {
+            conn.Open();
+            
+            var daos = await ExecuteQuery<AuthorDao>(conn, SQL, parameters: new {BookId = bookId.ToString()});
+            
+            await conn.CloseAsync();
+
+            return daos;
+        }
     }
 
     public async Task<Guid> CreateAuthor(AuthorDao dao)
