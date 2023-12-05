@@ -7,7 +7,7 @@ public class AuthorService : IAuthorService
 {
     private readonly IAuthorRepository _repository;
 
-    private AuthorDao CreateDao(AuthorModel model)
+    private AuthorDao BuildDao(AuthorModel model)
     {
         var dao = new AuthorDao
         {
@@ -18,38 +18,54 @@ public class AuthorService : IAuthorService
 
         return dao;
     }
+    
+    private AuthorModel BuildModel(AuthorDao dao)
+    {
+        var model = new AuthorModel
+        {
+            Id = Guid.Parse(dao.Id),
+            FirstName = dao.FirstName,
+            LastName = dao.LastName
+        };
+
+        return model;
+    }
 
     public AuthorService(IAuthorRepository repository)
     {
         _repository = repository;
     }
 
-    public AuthorModel GetAuthor(Guid authorId)
+    public async Task<AuthorModel?> GetAuthor(Guid authorId)
     {
-        throw new NotImplementedException();
+        var dao = await _repository.GetAuthor(authorId);
+        AuthorModel? author = null;
+
+        if (dao is not null)
+            author = BuildModel(dao);
+
+        return author;
     }
 
     public async Task<Guid> CreateAuthor(AuthorModel model)
     {
-        var dao = CreateDao(model);
+        var dao = BuildDao(model);
 
         var id = await _repository.CreateAuthor(dao);
 
         return id;
     }
 
-    public List<AuthorModel> GetAuthorsByBook(Guid bookId)
+    public async Task<List<AuthorModel>> GetAuthorsByBook(Guid bookId)
     {
-        throw new NotImplementedException();
-    }
+        var daos = await _repository.GetAuthorsByBook(bookId);
+        List<AuthorModel> authors;
 
-    public void UpdateAuthor(AuthorModel model)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void DeleteAuthor(Guid authorId)
-    {
-        throw new NotImplementedException();
+        if (daos.Count > 0)
+            authors = daos.Select(dao => BuildModel(dao)).ToList();
+        else
+            authors = new List<AuthorModel>();
+        
+        return authors;
     }
 }

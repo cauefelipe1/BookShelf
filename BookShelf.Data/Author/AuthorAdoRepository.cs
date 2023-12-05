@@ -13,12 +13,12 @@ public class AuthorAdoRepository : BaseAdoRepository, IAuthorRepository
         _settings = settings;
     }
 
-    public AuthorDao GetAuthor(Guid authorId)
+    public Task<AuthorDao?> GetAuthor(Guid authorId)
     {
         throw new NotImplementedException();
     }
 
-    public List<AuthorDao> GetAuthorsByBook(Guid bookId)
+    public Task<List<AuthorDao>> GetAuthorsByBook(Guid bookId)
     {
         throw new NotImplementedException();
     }
