@@ -15,6 +15,20 @@ public class AuthorController : ControllerBase
         _service = service;
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult> GetAuthor(Guid id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var author = await _service.GetAuthor(id);
+
+        if (author is null)
+            return NotFound();
+
+        return Ok(author);
+    }
+    
     [HttpPost]
     public async Task<ActionResult> CreateAuthor([FromBody] AuthorModel model)
     {
