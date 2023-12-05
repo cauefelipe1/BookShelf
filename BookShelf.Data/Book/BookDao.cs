@@ -1,8 +1,8 @@
-﻿namespace BookShelf.Models;
+namespace BookShelf.Data.Book;
 
-public class BookModel
+public class BookDao
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     public string Isbn { get; set; }
 
@@ -11,6 +11,4 @@ public class BookModel
     public DateTime PublishDate { get; set; }
 
     public string Language { get; set; }
-
-    public List<AuthorModel> Authors { get; set; }
 }

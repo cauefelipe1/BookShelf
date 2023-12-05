@@ -1,5 +1,5 @@
-using BookShelf.Application.Services;
 using BookShelf.Application.Services.Author;
+using BookShelf.Application.Services.Book;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BookShelf.Application.DependencyInjection;
