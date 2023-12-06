@@ -46,10 +46,24 @@ public class BookController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var id = await _service.UpdateBook(bookId, model);
+        var updated = await _service.UpdateBook(bookId, model);
 
-        if (!id)
+        if (!updated)
             return BadRequest("Fail updating the book.");
+
+        return NoContent();
+    }
+    
+    [HttpDelete("{bookId}")]
+    public async Task<ActionResult> UpdateBook(Guid bookId)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+        
+        var deleted = await _service.DeleteBook(bookId);
+
+        if (!deleted)
+            return BadRequest("Fail deleting the book.");
 
         return NoContent();
     }

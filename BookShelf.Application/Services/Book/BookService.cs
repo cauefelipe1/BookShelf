@@ -77,13 +77,15 @@ public class BookService : IBookService
     {
         var dao = BuildDao(model);
         
-        var updated = await _repository.UpdateBook(dao);
+        bool updated = await _repository.UpdateBook(dao);
 
         return updated;
     }
 
-    public Task<bool> DeleteBook(Guid bookId)
+    public async Task<bool> DeleteBook(Guid bookId)
     {
-        throw new NotImplementedException();
+        bool deleted = await _repository.DeleteBook(bookId);
+
+        return deleted;
     }
 }

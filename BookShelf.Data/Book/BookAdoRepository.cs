@@ -90,22 +90,40 @@ public class BookAdoRepository : BaseAdoRepository, IBookRepository
         using (var conn = new NpgsqlConnection(_settings.ConnectionString))
         {
             conn.Open();
-            
-            int rowAffected = await ExecuteNonQuery(conn, SQL, parameters: dao);
 
-            if (rowAffected > 0)
-                await InternalUpdateBookAuthors(conn, dao);
+            var t = conn.BeginTransaction();
             
-            await conn.CloseAsync();
+            try
+            {
+                int rowAffected = await ExecuteNonQuery(conn, SQL, parameters: dao);
 
-            return rowAffected > 0;
+                if (rowAffected > 0)
+                    await InternalUpdateBookAuthors(conn, dao);
+                
+                t.Commit();
+                
+                return rowAffected > 0;
+            }
+            catch
+            {
+                t.Rollback();
+                throw;
+            }
+            finally
+            {
+                await conn.CloseAsync();    
+            }
         }
     }
 
     private async Task InternalUpdateBookAuthors(NpgsqlConnection conn, BookDao dao)
     {
-        const string DELETE_SQL = "DELETE FROM book_author WHERE book_id = @BookId";
-        
+        await InternalDeleteBookAuthors(conn, dao.Id);
+        await InternalInsertBookAuthors(conn, dao);
+    }
+    
+    private async Task InternalInsertBookAuthors(NpgsqlConnection conn, BookDao dao)
+    {
         const string INSERT_SQL = @"
             INSERT INTO 
                 book_author
@@ -114,13 +132,46 @@ public class BookAdoRepository : BaseAdoRepository, IBookRepository
                 (@BookId, @AuthorId);";
 
         foreach (var a in dao.Auhtors)
-        {
-            await ExecuteNonQuery(conn, INSERT_SQL, parameters: new {BookId = dao.Id, AuthorId = a});    
-        }
+            await ExecuteNonQuery(conn, INSERT_SQL, parameters: new {BookId = dao.Id, AuthorId = a});
+    }
+    
+    private async Task InternalDeleteBookAuthors(NpgsqlConnection conn, string bookId)
+    {
+        const string DELETE_SQL = "DELETE FROM book_author WHERE book_id = @BookId";
+        
+        await ExecuteNonQuery(conn, DELETE_SQL, parameters: new {BookId = bookId});
     }
 
-    public Task<bool> DeleteBook(Guid bookId)
+    public async Task<bool> DeleteBook(Guid bookId)
     {
-        throw new NotImplementedException();
+        const string SQL = @" DELETE FROM book WHERE id = @Id";
+
+        using (var conn = new NpgsqlConnection(_settings.ConnectionString))
+        {
+            conn.Open();
+            string id = bookId.ToString();
+
+            var t = conn.BeginTransaction();
+
+            try
+            {
+                await InternalDeleteBookAuthors(conn, id);
+
+                int rowAffected = await ExecuteNonQuery(conn, SQL, parameters: new { Id = id });
+
+                t.Commit();
+                
+                return rowAffected > 0;
+            }
+            catch
+            {
+                t.Rollback();
+                throw;
+            }
+            finally
+            {
+                await conn.CloseAsync();    
+            }
+        }
     }
 }
