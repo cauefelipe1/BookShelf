@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using BookShelf.Application.Services.Jwt;
 using BookShelf.Application.Services.User;
 using BookShelf.Models;
@@ -15,6 +17,14 @@ public class AuthenticationService : IAuthenticationService
         _jwtService = jwtService;
         _userService = userService;
     }
+    
+    private  string EncodePassword(string password)
+    {  
+        byte[] bytes = Encoding.Unicode.GetBytes(password);
+        byte[] inArray = SHA1.Create().ComputeHash(bytes);
+        
+        return Convert.ToBase64String(inArray);
+    }
 
     public async Task<TokenInfo> AuthenticateUser(LoginModel model)
     {
@@ -23,6 +33,9 @@ public class AuthenticationService : IAuthenticationService
         var user = await _userService.GetUser(username);
 
         if (user is null)
+            throw new Exception("Invalid username and/or password.");
+        
+        if (!string.Equals(EncodePassword(model.Password), user.Password))
             throw new Exception("Invalid username and/or password.");
         
         var token = GetUserTokenInfo(user, _jwtService);
@@ -42,7 +55,7 @@ public class AuthenticationService : IAuthenticationService
         user = new UserModel
         {
             Username = model.Username,
-            Password = model.Password
+            Password = EncodePassword(model.Password)
         };
 
         user.Id = await _userService.RegisterUser(user);
