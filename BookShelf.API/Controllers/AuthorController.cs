@@ -1,5 +1,6 @@
 using BookShelf.Application.Services.Author;
 using BookShelf.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShelf.API.Controllers;
@@ -44,6 +45,7 @@ public class AuthorController : ControllerBase
     }
     
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult> CreateAuthor([FromBody] AuthorModel model)
     {
         if (!ModelState.IsValid)

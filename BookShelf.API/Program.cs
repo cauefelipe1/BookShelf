@@ -1,3 +1,4 @@
+using BookShelf.API.DependencyInjection;
 using BookShelf.Application.DependencyInjection;
 using BookShelf.Application.Services.Jwt;
 using BookShelf.Data.DependencyInjection;
@@ -12,18 +13,18 @@ public static class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
         builder.Services.AddControllers();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwagger();
         
         builder.Services.AddDomainServices();
         builder.Configuration.AddEnvironmentVariables();
         
         builder.Services.AddDatabaseConfiguration(builder.Configuration);
-        builder.Services.AddJwtConfiguration(builder.Configuration);
+        var jwtSettings = builder.Services.AddJwtConfiguration(builder.Configuration);
+        builder.Services.AddJwtToken(jwtSettings);
         
 
         var app = builder.Build();
@@ -58,10 +59,12 @@ public static class Program
         services.AddSingleton(databaseSettings);
     }
     
-    private static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
+    private static JwtSettings AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         var jwtSettings = new JwtSettings(configuration.GetSection("JwtSettings"));
 
         services.AddSingleton(jwtSettings);
+
+        return jwtSettings;
     }
 }

@@ -1,5 +1,6 @@
 using BookShelf.Application.Services.Book;
 using BookShelf.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShelf.API.Controllers;
@@ -30,6 +31,7 @@ public class BookController : ControllerBase
     }
     
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult> CreateBook([FromBody] BookModel model)
     {
         if (!ModelState.IsValid)
@@ -41,6 +43,7 @@ public class BookController : ControllerBase
     }
     
     [HttpPut("{bookId}")]
+    [Authorize]
     public async Task<ActionResult> UpdateBook(Guid bookId, [FromBody] BookModel model)
     {
         if (!ModelState.IsValid)
@@ -55,7 +58,8 @@ public class BookController : ControllerBase
     }
     
     [HttpDelete("{bookId}")]
-    public async Task<ActionResult> UpdateBook(Guid bookId)
+    [Authorize]
+    public async Task<ActionResult> DeleteBook(Guid bookId)
     {
         if (!ModelState.IsValid)
             return BadRequest();
