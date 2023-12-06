@@ -11,12 +11,32 @@ services:
       - POSTGRES_PASSWORD=123456
       - POSTGRES_DB=book_shelf
     ports:
-      - 5401:5432
+      - "5401:5432"
     networks:
       - book_shelf
     profiles:
       ["book_shelf", "database"]
 
+  api:
+    image: book_shelf_api
+    container_name: book_shelf_api
+    build:
+      context: .
+      target: book_shelf_api
+    environment:
+      - Database__Host=database
+      - Database__Port=5432
+      - Database__DatabaseName=book_shelf
+      - Database__User=app
+      - Database__Password=123456
+    ports:
+      - "5100:80"
+    links:
+      - database
+    networks:
+      - book_shelf
+    profiles:
+      ["book_shelf", "api"]
 
 networks:
   book_shelf:
