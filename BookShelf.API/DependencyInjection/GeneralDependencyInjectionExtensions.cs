@@ -17,10 +17,6 @@ public static class GeneralDependencyInjectionExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
-            // options.SwaggerDoc(
-            //     "API",
-            //     new OpenApiInfo { Title = "BookShelf API", Version = "V1" });
-
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -47,7 +43,6 @@ public static class GeneralDependencyInjectionExtensions
             });
 
             options.AddXmlDocumentation();
-
         });
     }
 
