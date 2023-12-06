@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using BookShelf.Data.Author;
 using BookShelf.Models;
 
@@ -62,6 +63,8 @@ public class AuthorService : IAuthorService
 
     public async Task<Guid> CreateAuthor(AuthorModel model)
     {
+        ValidateAuthor(model);
+
         var dao = BuildDao(model);
 
         var id = await _repository.CreateAuthor(dao);
@@ -80,5 +83,14 @@ public class AuthorService : IAuthorService
             authors = new List<AuthorModel>();
         
         return authors;
+    }
+
+    private void ValidateAuthor(AuthorModel model)
+    {
+        if (string.IsNullOrEmpty(model.FirstName) || string.IsNullOrWhiteSpace(model.FirstName))
+            throw new ValidationException("The first name must be provided.");
+        
+        if (string.IsNullOrEmpty(model.LastName) || string.IsNullOrWhiteSpace(model.LastName))
+            throw new ValidationException("The last name must be provided.");
     }
 }

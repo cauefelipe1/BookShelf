@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using BookShelf.Application.Services.Author;
 using BookShelf.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -51,8 +52,15 @@ public class AuthorController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var id = await _service.CreateAuthor(model);
+        try
+        {
+            var id = await _service.CreateAuthor(model);
 
-        return Ok(id);
+            return Ok(id);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using BookShelf.Application.Services.Book;
 using BookShelf.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -37,9 +38,16 @@ public class BookController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var id = await _service.CreateBook(model);
+        try
+        {
+            var id = await _service.CreateBook(model);
 
-        return Ok(id);
+            return Ok(id);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
     
     [HttpPut("{bookId}")]
@@ -49,10 +57,17 @@ public class BookController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var updated = await _service.UpdateBook(bookId, model);
-
-        if (!updated)
-            return BadRequest("Fail updating the book.");
+        try
+        {
+            bool updated = await _service.UpdateBook(bookId, model);
+            
+            if (!updated)
+                return BadRequest("Fail updating the book.");
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Message);
+        }
 
         return NoContent();
     }

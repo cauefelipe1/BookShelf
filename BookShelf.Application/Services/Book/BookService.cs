@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using BookShelf.Application.Services.Author;
 using BookShelf.Data.Book;
 using BookShelf.Models;
@@ -59,13 +60,10 @@ public class BookService : IBookService
         return author;
     }
 
-    public Task<List<BookModel>> GetUserBooks(Guid userId)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<Guid> CreateBook(BookModel model)
     {
+        ValidateBook(model);
+
         var dao = BuildDao(model);
         
         var id = await _repository.CreateBook(dao);
@@ -75,6 +73,8 @@ public class BookService : IBookService
 
     public async Task<bool> UpdateBook(Guid bookId, BookModel model)
     {
+        ValidateBook(model);
+        
         var dao = BuildDao(model);
         
         bool updated = await _repository.UpdateBook(dao);
@@ -87,5 +87,14 @@ public class BookService : IBookService
         bool deleted = await _repository.DeleteBook(bookId);
 
         return deleted;
+    }
+
+    private void ValidateBook(BookModel model)
+    {
+        if (model.Authors.Count < 1)
+            throw new ValidationException("At least one author must be informed.");
+        
+        if (string.IsNullOrEmpty(model.Title) || string.IsNullOrWhiteSpace(model.Title))
+            throw new ValidationException("A title must be provided.");
     }
 }

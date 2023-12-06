@@ -6,8 +6,6 @@ public interface IBookService
 {
     Task<BookModel?> GetBook(Guid bookId);
     
-    Task<List<BookModel>> GetUserBooks(Guid userId);
-    
     Task<Guid> CreateBook(BookModel model);
 
     Task<bool> UpdateBook(Guid bookId, BookModel model);

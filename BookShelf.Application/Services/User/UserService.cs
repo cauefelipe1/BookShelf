@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using BookShelf.Data.User;
 using BookShelf.Models;
 
@@ -38,10 +39,10 @@ public class UserService : IUserService
     private void ValidateModel(UserModel model)
     {
         if (model is null)
-            throw new Exception("Invalid model instance.");
+            throw new ValidationException("Invalid model instance.");
 
         if (string.IsNullOrEmpty(model.Password))
-            throw new ArgumentNullException(nameof(model.Password), "A password must be informed.");
+            throw new ValidationException("A password must be informed.");
     }
     
     public async Task<UserModel?> GetUser(string username)
