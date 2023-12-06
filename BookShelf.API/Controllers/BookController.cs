@@ -17,6 +17,20 @@ public class BookController : ControllerBase
         _service = service;
     }
 
+    [HttpGet]
+    public async Task<ActionResult> GetAll()
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var books = await _service.GetAll();
+
+        if (books.Count == 0)
+            return NotFound();
+
+        return Ok(books);
+    }
+    
     [HttpGet("{id}")]
     public async Task<ActionResult> GetBook(Guid id)
     {

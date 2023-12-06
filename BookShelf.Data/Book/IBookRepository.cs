@@ -2,9 +2,9 @@ namespace BookShelf.Data.Book;
 
 public interface IBookRepository
 {
-    Task<BookDao?> GetBook(Guid bookId);
+    Task<List<BookDao>> GetAll();
     
-    Task<List<BookDao>> GetUserBooks(Guid userId);
+    Task<BookDao?> GetBook(Guid bookId);
     
     Task<Guid> CreateBook(BookDao dao);
 

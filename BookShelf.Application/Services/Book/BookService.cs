@@ -46,6 +46,25 @@ public class BookService : IBookService
         return model;
     }
 
+    public async Task<List<BookModel>> GetAll()
+    {
+        var daos = await _repository.GetAll();
+
+        if (daos.Count == 0)
+            return new List<BookModel>();
+
+        var tasksDict = new Dictionary<BookDao, Task<List<AuthorModel>>>();
+
+        foreach (var book in daos)
+            tasksDict.Add(book, _authorService.GetAuthorsByBook(Guid.Parse(book.Id)));
+
+        await Task.WhenAll(tasksDict.Values);
+
+        var result = tasksDict.Select(p => BuildModel(p.Key, p.Value.Result)).ToList();
+        
+        return result;
+    }
+
     public async Task<BookModel?> GetBook(Guid bookId)
     {
         var dao = await _repository.GetBook(bookId);

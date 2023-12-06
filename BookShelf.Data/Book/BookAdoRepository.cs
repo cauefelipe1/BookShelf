@@ -13,6 +13,30 @@ public class BookAdoRepository : BaseAdoRepository, IBookRepository
         _settings = settings;
     }
 
+    public async Task<List<BookDao>> GetAll()
+    {
+        const string SQL = @"
+            SELECT 
+                id AS Id,
+                isbn AS Isbn,
+                title AS Title,
+                publish_date As PublishDate,
+                language as Language
+            FROM
+                book";
+
+        using (var conn = new NpgsqlConnection(_settings.ConnectionString))
+        {
+            conn.Open();
+            
+            var daos = await ExecuteQuery<BookDao>(conn, SQL);
+            
+            await conn.CloseAsync();
+            
+            return daos;
+        }
+    }
+
     public async Task<BookDao?> GetBook(Guid bookId)
     {
         const string SQL = @"
@@ -40,11 +64,6 @@ public class BookAdoRepository : BaseAdoRepository, IBookRepository
             
             return daos.First();
         }
-    }
-
-    public Task<List<BookDao>> GetUserBooks(Guid userId)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<Guid> CreateBook(BookDao dao)

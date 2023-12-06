@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Data", "BookShelf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Application", "BookShelf.Application\BookShelf.Application.csproj", "{1703868D-0549-47A3-B073-DF5D781F7EB5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FB66502E-1B42-465C-BA64-F3B66A947A8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Application.Tests", "Tests\BookShelf.Application.Tests\BookShelf.Application.Tests.csproj", "{292C37F7-AE92-4329-885E-AE07F189565F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,7 +34,12 @@ Global
 		{1703868D-0549-47A3-B073-DF5D781F7EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1703868D-0549-47A3-B073-DF5D781F7EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1703868D-0549-47A3-B073-DF5D781F7EB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{292C37F7-AE92-4329-885E-AE07F189565F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{292C37F7-AE92-4329-885E-AE07F189565F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{292C37F7-AE92-4329-885E-AE07F189565F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{292C37F7-AE92-4329-885E-AE07F189565F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{292C37F7-AE92-4329-885E-AE07F189565F} = {FB66502E-1B42-465C-BA64-F3B66A947A8C}
 	EndGlobalSection
 EndGlobal

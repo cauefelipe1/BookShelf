@@ -4,6 +4,8 @@ namespace BookShelf.Application.Services.Book;
 
 public interface IBookService
 {
+    Task<List<BookModel>> GetAll();
+    
     Task<BookModel?> GetBook(Guid bookId);
     
     Task<Guid> CreateBook(BookModel model);
