@@ -1,4 +1,5 @@
 using BookShelf.Application.DependencyInjection;
+using BookShelf.Application.Services.Jwt;
 using BookShelf.Data.DependencyInjection;
 using BookShelf.Data.Settings;
 
@@ -20,7 +21,10 @@ public static class Program
         
         builder.Services.AddDomainServices();
         builder.Configuration.AddEnvironmentVariables();
+        
         builder.Services.AddDatabaseConfiguration(builder.Configuration);
+        builder.Services.AddJwtConfiguration(builder.Configuration);
+        
 
         var app = builder.Build();
 
@@ -52,5 +56,12 @@ public static class Program
         var databaseSettings = new DatabaseSettings(configuration.GetSection("Database"));
 
         services.AddSingleton(databaseSettings);
+    }
+    
+    private static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        var jwtSettings = new JwtSettings(configuration.GetSection("JwtSettings"));
+
+        services.AddSingleton(jwtSettings);
     }
 }

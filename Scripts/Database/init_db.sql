@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS "user" (
+	"id" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    PRIMARY KEY ("id")
+);
+
 CREATE TABLE IF NOT EXISTS book (
   "id" TEXT NOT NULL,
   "isbn" TEXT NOT NULL,

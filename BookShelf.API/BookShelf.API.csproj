@@ -9,7 +9,9 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13"/>
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -21,6 +23,10 @@
     <ItemGroup>
       <ProjectReference Include="..\BookShelf.Application\BookShelf.Application.csproj" />
       <ProjectReference Include="..\BookShelf.Models\BookShelf.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Core\" />
     </ItemGroup>
 
 </Project>
