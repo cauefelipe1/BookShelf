@@ -27,3 +27,32 @@ It also holds the DAOs models that represents the physical table.
 
 
 Besides the layers already meant, there is also another library called *BookShelf.Models*. This library is responsible for holding all models for the application. In that way this library can be shared for any other library or application that interact with the same domain.  
+
+
+## Running the Application
+
+The application can be executed via IDE or via Docker.
+
+### Docker
+
+The application can be executed via docker, executing the following command in the root path of the repository in your machine:
+
+`docker compose --profile book_shelf up`
+
+After the containers are created and started, you can access the following address in the web browser to access the swagger interface:
+
+http://localhost:5100/swagger/index.html
+
+### IDE
+Just open the solution *BookShelf.sln* in your preferred IDE, and start the project *BookShelf.API*
+
+For creating the database, you can either run the following command following command in the root path of the repository in your machine:
+
+`docker compose --profile database up`
+
+Or, you can grab the init script in the path ./Scripts/Database/init_db.sql and execute it in your PostgreSQL server.
+
+
+## Configuring the database access
+The database configuration lives in the *appsettings.json* in the *BookShelf.API* project.
+
