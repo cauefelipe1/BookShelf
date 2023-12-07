@@ -4,7 +4,7 @@ The BookShelf is a Web API for storing books and listing the books stored.
 
 It is a Web API written in C#/Asp Net Core using Postgres SQL as Database and pure ADo to interact with the database layer.
 
-The application implements a very simple user login process, very unsecure for actual standards, but the idea behind is only to illustrate some sort of authorization behaviour in the API.
+The application implements a very simple user login process, very unsecure for actual standards, it was done to respect the restriction of not using EF. But as the idea behind is only to illustrate some sort of authorization behaviour in the API, it achieves this goal.
 
 The application is split in three main layers, that are listed bellow: 
 

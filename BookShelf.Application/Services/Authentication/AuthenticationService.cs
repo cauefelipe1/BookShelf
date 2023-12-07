@@ -37,6 +37,8 @@ public class AuthenticationService : IAuthenticationService
         
         if (!string.Equals(EncodePassword(model.Password), user.Password))
             throw new Exception("Invalid username and/or password.");
+
+        user.Password = string.Empty;
         
         var token = GetUserTokenInfo(user, _jwtService);
 

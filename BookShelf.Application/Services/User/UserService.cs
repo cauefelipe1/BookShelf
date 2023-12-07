@@ -18,7 +18,8 @@ public class UserService : IUserService
         var model = new UserModel
         {
             Id = Guid.Parse(dto.Id),
-            Username = dto.Username
+            Username = dto.Username,
+            Password = dto.Password
         };
 
         return model;
